@@ -54,7 +54,7 @@ def getCommandes(request):
 def getMesCommandes(request):
     user=request.user
     try:
-        commandes = user.commandes_set.all()
+        commandes = Commande.objects.filter(client=user)
     except:
         return Response({'details':'Pas de commandes pour ce utilisateur'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -139,5 +139,32 @@ def supprimerCommande(request, pk):
                      status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response({"detail": "Cette commande n'existe pas"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMesCommandesV(request):
+    user=request.user
+    try:
+        commandes = Commande.objects.filter(client=user,etat='V')
+    except:
+        return Response({'details':'Pas de commandes pour ce utilisateur'}, status = status.HTTP_400_BAD_REQUEST)
+
+    serializer = CommandeSerializer(commandes,many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMesCommandesE(request):
+    user=request.user
+    try:
+        commandes = Commande.objects.filter(client=user).exclude(etat='V')
+    except:
+        return Response({'details':'Pas de commandes pour ce utilisateur'}, status = status.HTTP_400_BAD_REQUEST)
+
+    serializer = CommandeSerializer(commandes,many=True)
+    return Response(serializer.data)
 
 

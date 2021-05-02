@@ -37,6 +37,7 @@ def getProduits(request):
     print('Page:', page)
     serializer = ProduitSerializer(produits, many=True)
     return Response({'produits': serializer.data, 'page': page, 'pages': paginator.num_pages})
+    
 class ProduitDetails(APIView):
     def get(self,request,pk):
         produit=get_object_or_404(Produit,pk=int(pk))
@@ -127,3 +128,9 @@ def uploadImage(request):
     produit.save()
 
     return Response('Image was uploaded')
+
+@api_view(['GET'])
+def getProm(request):
+    produits=Produit.objects.filter(promotion=True)
+    serializer = ProduitSerializer(produits, many=True)
+    return Response(serializer.data)

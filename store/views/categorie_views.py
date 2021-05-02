@@ -85,4 +85,13 @@ class ProduitCat(APIView):
         serializer = ProduitSerializer(produits, many=True)
         return Response({'produits': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
+class ProduitCatM(APIView):
+    def get(self,request,catF_id):
+       
+        cat = get_object_or_404(Categorie, pk=int(catF_id))
+        produits=Produit.objects.filter(categorie=cat.id)
+        serializer = ProduitSerializer(produits, many=True)
+        return Response(serializer.data)
+
+
 

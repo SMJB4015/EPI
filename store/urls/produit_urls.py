@@ -5,6 +5,7 @@ urlpatterns = [
      path('', views.getProduits, name="produits"),
      path('detail/<str:pk>/',views.ProduitDetails.as_view(),name='produit_dt'),
      path('promotion/',views.Promo.as_view(),name='promo'),
+     path('promotionM/',views.getProm,name='promotion'),
      path('nouveau/', views.getNouveau, name="produits_nouveau"),
      path('ajouter/', views.ajouterProduit, name="produits_ajouter"),
      path('modifier/<str:pk>/', views.modifierProduit, name="produits_modifer"),

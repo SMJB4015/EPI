@@ -56,7 +56,7 @@ def boiteMessage(request):
     user=request.user
     contact=Contact.objects.filter(recepteur=user).all()
     if len(contact)==0:
-        return Response({"detail": "Vous n'avez pas des messages" })
+        return Response({"detail": "Vous n'avez pas des messages" },status=status.HTTP_400_BAD_REQUEST)
     serializer=ContactSerializer(contact,many=True)
     return Response(serializer.data)
 
